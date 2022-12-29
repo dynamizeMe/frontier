@@ -1,0 +1,28 @@
+{
+  "name": "micros-frontier",
+  "version": "1.0.0",
+  "description": "Angular Micro Frontend Scaffolding Tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "cd .. && cd test && npm link micros-frontier && node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ewhtp4/frontier.git"
+  },
+  "keywords": [
+    "Angular",
+    "Angular2",
+    "Micro",
+    "Frontend",
+    "FrontEnds",
+    "Micro-Frontend",
+    "Micro-Frontends"
+  ],
+  "author": "Slavko Mihajlovic",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ewhtp4/frontier/issues"
+  },
+  "homepage": "https://github.com/ewhtp4/frontier#readme"
+}
