@@ -60,6 +60,10 @@ function addScript(type, name) {
             key = 'build:' + name;
             value = 'bg build ' + name + ' --configuration production';
             break;
+        case 'init':
+            key = 'init:frontier';
+            value = 'node node_modules/micros-frontier/execute.js --init';
+            break;
         default:
             break;
     }

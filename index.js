@@ -36,6 +36,10 @@ function initalizeWorkspace() {
     });
 }
 
+function createInitScript() {
+    
+}
+
 module.exports = {
     setup,
     createApp
