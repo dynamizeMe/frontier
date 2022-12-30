@@ -41,9 +41,8 @@ function createInitScript() {
     addScript('init');
 }
 
-createInitScript();
-
 module.exports = {
     setup,
-    createApp
+    createApp,
+    createInitScript
 }
