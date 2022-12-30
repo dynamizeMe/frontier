@@ -1,5 +1,6 @@
-const { executeCommandWithReturn } = require('./utils/util.js'); 
+const { addScript, executeCommandWithReturn } = require('./utils/util.js'); 
 const { addApplication, createAddFile } = require('./utils/create.js');
+
 const { execSync } = require('node:child_process');
 const createApp = require('./utils/add_remote.js');
 const os = require('node:os');
@@ -37,8 +38,10 @@ function initalizeWorkspace() {
 }
 
 function createInitScript() {
-    
+    addScript('init');
 }
+
+createInitScript();
 
 module.exports = {
     setup,
