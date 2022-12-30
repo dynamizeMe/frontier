@@ -1,4 +1,5 @@
-const { addApplication, addScript, executeCommand } = require('./common.js');
+const { addScript, executeCommand } = require('./util.js');
+const { addApplication } = require('./create.js');
 const os = require('node:os');
 
 function createApp() {
@@ -11,7 +12,7 @@ function createApp() {
         output: process.stdout,
     });
     readline.question(`Please name your remote application: `, name => {
-        addApplication(name, cliMajorVer);
+        addApplication(name, cliMajorVer, false);
         addScripts(name);
         readline.close();
     });

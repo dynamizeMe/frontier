@@ -1,25 +1,7 @@
-const { execSync, exec } = require('node:child_process');
+const { execSync } = require('node:child_process');
 const { chdir, cwd } = require('node:process');
 
-const saveFile = require('fs').writeFileSync;
-
-function addApplication(name, port) {
-    console.log(`Creating angular application: ${name}`)
-    execSync(`ng generate application ${name} --routing --style="scss"`);
-    execSync(`ng add @angular-architects/module-federation --project=${name} --port=${port} --skip-confirmation`);
-    createAddfile();
-}
-
-function createAddfile() {
-    let fs = require("fs");  
-    fs.writeFileSync(
-        'add_remote_app.js', 
-        `const { createApp } = require('micros-frontier');\n\ncreateApp();`
-    )
-    addScript('add');
-}
-
-function executeCommand(command) {
+function executeCommandWithReturn(command) {
     return execSync(command, (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
@@ -33,7 +15,34 @@ function executeCommand(command) {
     }).toString();
 }
 
+function executeCommand(command) {
+    execSync(command, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+    });
+}
+
+function changeDir(dir) {
+    try {
+        if(dir.startsWith('../')) {
+            chdir(`${dir}`);
+        }
+        else {
+            chdir(`${cwd()}${dir}`);
+        }
+    } catch (err) {
+        console.error(`chdir: ${err}`);
+    }
+}
+
 function addScript(type, name) {
+    const saveFile = require('fs').writeFileSync;
     const pkgJsonPath = require.main.paths[0].split('node_modules')[0] + 'package.json';
     const json = require(pkgJsonPath);
     let key = '';
@@ -52,7 +61,7 @@ function addScript(type, name) {
             value = 'bg build ' + name + ' --configuration production';
             break;
         default:
-        // code block
+            break;
     }
 
     if (!json.hasOwnProperty('scripts')) {
@@ -64,18 +73,10 @@ function addScript(type, name) {
     saveFile(pkgJsonPath, JSON.stringify(json, null, 2));
 }
 
-function changeDir(dir) {
-    try {
-        chdir(`${dir}`);
-        console.log(`New directory: ${cwd()}`);
-    } catch (err) {
-        console.error(`chdir: ${err}`);
-    }
-}
 
 module.exports = {
-    addApplication,
     addScript,
     changeDir,
-    executeCommand
+    executeCommand,
+    executeCommandWithReturn
 }
