@@ -1,10 +1,10 @@
-const { addScript, executeCommand } = require('./util.js');
+const { addScript, executeCommandWithReturn } = require('./util.js');
 const { addApplication } = require('./create.js');
 const os = require('node:os');
 
 function createApp() {
     const oSys = os.platform();
-    const cliVersion = executeCommand("ng version | awk 'FNR == 10 {print $3}'");
+    const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");
     const cliMajorVer = cliVersion.split('.')[0];
     console.log(`OS: ${oSys}!`);
     const readline = require('readline').createInterface({
@@ -21,6 +21,7 @@ function createApp() {
 function addScripts(name) {
     addScript('start', name);
     addScript('build', name);
+    addScript('watch', name);
 }
 
 module.exports = createApp

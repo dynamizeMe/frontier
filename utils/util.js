@@ -43,14 +43,14 @@ function changeDir(dir) {
 
 function addScript(type, name) {
     const saveFile = require('fs').writeFileSync;
-    const pkgJsonPath = require.main.paths[0].split('node_modules')[0] + 'package.json';
+    const pkgJsonPath = `${cwd()}/package.json`;
     const json = require(pkgJsonPath);
     let key = '';
     let value = '';
     switch(type) {
         case 'add':
             key = 'add:remote';
-            value = 'node add_remote_app.js'
+            value = 'npx micros-frontier --add'
             break;
         case 'start':
             key = 'start:' + name;
@@ -58,7 +58,11 @@ function addScript(type, name) {
             break;
         case 'build':
             key = 'build:' + name;
-            value = 'bg build ' + name + ' --configuration production';
+            value = 'bg build ' + name;
+            break;
+        case 'watch':
+            key = 'watch:' + name;
+            value = 'bg build ' + name + ' --watch --configuration development';
             break;
         case 'init':
             key = 'init:frontier';
@@ -71,9 +75,9 @@ function addScript(type, name) {
     if (!json.hasOwnProperty('scripts')) {
         json.scripts = {};
     }
-      
+
     json.scripts[key] = value;
-      
+
     saveFile(pkgJsonPath, JSON.stringify(json, null, 2));
 }
 
