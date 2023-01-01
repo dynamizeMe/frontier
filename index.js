@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 const { addScript, executeCommandWithReturn } = require('./utils/util.js');
 const { addApplication } = require('./utils/create.js');
-
 const { execSync } = require('node:child_process');
 const createApp = require('./utils/add_remote.js');
 const os = require('node:os');
