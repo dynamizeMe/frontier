@@ -3,6 +3,7 @@ const { addScript, executeCommandWithReturn } = require('./utils/util.js');
 const { addApplication } = require('./utils/create.js');
 const { execSync } = require('node:child_process');
 const createApp = require('./utils/add_remote.js');
+const Inserter = require('./utils/inserter');
 const os = require('node:os');
 
 const oSys = os.platform();
@@ -55,5 +56,6 @@ module.exports = {
     createApp,
     createInitScript,
     initalizeWorkspace,
-    execute
+    execute,
+    Inserter
 }
