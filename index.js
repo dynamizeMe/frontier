@@ -4,11 +4,14 @@ const { addApplication } = require('./utils/create.js');
 const { execSync } = require('node:child_process');
 const createApp = require('./utils/add_remote.js');
 const Inserter = require('./utils/inserter');
+const clearConsole = require('./utils/console');
 const os = require('node:os');
 
 const oSys = os.platform();
 const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");
 const cliMajorVer = cliVersion.split('.')[0];
+
+clearConsole();
 
 function execute() {
   if(process.argv[2] === '--init') {
@@ -23,6 +26,7 @@ function execute() {
 }
 
 function initalizeWorkspace() {
+
     const readline = require('readline');
     const inquirer = readline.createInterface({
         input: process.stdin,
