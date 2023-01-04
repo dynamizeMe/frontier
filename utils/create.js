@@ -1,41 +1,56 @@
-const { changeDir, executeCommand } = require('./util.js');
-const appRoutingModuleData = require('../create_data/app.routing.module.js');
-const appModuleData = require('../create_data/app.module.js');
-const federationUtilData = require('../create_data/federation.utils.js');
-const microfrontendServiceData = require('../create_data/microforntedn.service.js');
-const microfrontendModelData = require('../create_data/microfrontend.model.js');
-const routeUtilsData = require('../create_data/route.utils.js');
+const { addScript, changeDir, executeCommand, executeCommandWithReturn } = require('./util');
+const appRoutingModuleData = require('../create_data/app.routing.module');
+const customManifestData = require('../create_data/custom-manifest');
+const routesData = require('../create_data/routes');
+const routefactoryData = require('../create_data/route-factory');
 
 function addApplication(name, port, isShell, callBackFunction) {
-    console.log(`Creating angular application: ${name}`)
-    executeCommand(`ng generate application ${name} --routing --style="scss"`);
-    executeCommand(`ng add @angular-architects/module-federation --project=${name} --port=${port} --skip-confirmation`);
+  const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");
+  const cliMajorVer = cliVersion.split('.')[0];
+  console.log(`Creating angular application: ${name}`)
+  executeCommand(`ng generate application ${name} --routing --style="scss"`);
+
+  if(cliMajorVer > 13) {
     if(isShell) {
-        setupShellApp(name);
+      executeCommand(`ng add @angular-architects/module-federation --project=${name} --port=${port} --type dynamic-host --skip-confirmation`);
+      setupShellApp(name);
     }
-    if(callBackFunction) {
-        callBackFunction();
+    else {
+      executeCommand(`ng add @angular-architects/module-federation --project=${name} --port=${port} --type remote --skip-confirmation`);
     }
+  }
+  else {
+    executeCommand(`ng add @angular-architects/module-federation --project=${name} --port=${port} --skip-confirmation`);
+  }
+
+  addScripts(name);
+
+  if(callBackFunction) {
+      callBackFunction();
+  }
 }
 
 function setupShellApp(name) {
-    const fs = require("fs");
-    changeDir(`/projects/${name}/src/app`);
-    fs.writeFileSync('app-routing.module.ts', appRoutingModuleData);
-    executeCommand('mkdir utils');
-    executeCommand('mkdir services');
-    executeCommand('mkdir models');
-    changeDir('/utils');
-    fs.writeFileSync('federation-utils.ts', federationUtilData);
-    fs.writeFileSync('route-utils.ts', routeUtilsData);
-    changeDir('../');
-    changeDir('/models');
-    fs.writeFileSync('microfrontend.model.ts', microfrontendModelData);
-    changeDir('../');
-    changeDir('/services');
-    fs.writeFileSync('microfrontend.service.ts', microfrontendServiceData);
-    changeDir('../');
-    fs.writeFileSync('app.module.ts', appModuleData);
+  const fs = require("fs");
+  changeDir(`/projects/${name}/src/app`);
+  executeCommand('mkdir microfrontedns');
+  executeCommand('mkdir components');
+  changeDir('/components');
+  executeCommand('ng g c main');
+  changeDir('../');
+  changeDir('/microfrontedns');
+  fs.writeFileSync('custom-manifest.ts', customManifestData);
+  fs.writeFileSync('routes.ts', routesData);
+  fs.writeFileSync('route-factory.ts', routefactoryData);
+  changeDir('../');
+  fs.writeFileSync('app-routing.module.ts', appRoutingModuleData);
+  changeDir('../../../../');
+}
+
+function addScripts(name) {
+  addScript('start', name);
+  addScript('build', name);
+  addScript('watch', name);
 }
 
 module.exports = {

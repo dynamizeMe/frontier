@@ -26,7 +26,7 @@ function execute() {
 }
 
 function initalizeWorkspace() {
-
+    clearConsole();
     const readline = require('readline');
     const inquirer = readline.createInterface({
         input: process.stdin,
@@ -34,17 +34,16 @@ function initalizeWorkspace() {
     });
 
     inquirer.question("Please name the micro frontend project: ", name => {
-        inquirer.question("Please name you shell application: ", appName => {
-            inquirer.question("What port would you like to use: ", port => {
-                execSync(`ng new ${name.trim()} --create-application=false --directory ./`);
-                execSync(`npm i --save --save-dev ngx-build-plus@^${cliMajorVer}`);
-                addScript('add');
-                addApplication(appName.trim(), port.trim(), true );
-                inquirer.close();
-            });
+      inquirer.question("Please name you shell application: ", appName => {
+        inquirer.question("What port would you like to use: ", port => {
+          execSync(`ng new ${name.trim()} --create-application=false --directory ./`);
+          execSync(`npm i --save --save-dev ngx-build-plus@^${cliMajorVer}`);
+          addScript('add');
+          addApplication(appName.trim(), port.trim(), true);
+          inquirer.close();
         });
+      });
     });
-
     inquirer.on("close", function() {
         process.exit(0);
     });
