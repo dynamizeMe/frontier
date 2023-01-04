@@ -33,12 +33,12 @@ function addApplication(name, port, isShell, callBackFunction) {
 function setupShellApp(name) {
   const fs = require("fs");
   changeDir(`/projects/${name}/src/app`);
-  executeCommand('mkdir microfrontedns');
+  executeCommand('mkdir microfrontends');
   executeCommand('mkdir components');
   changeDir('/components');
   executeCommand('ng g c main');
   changeDir('../');
-  changeDir('/microfrontedns');
+  changeDir('/microfrontends');
   fs.writeFileSync('custom-manifest.ts', customManifestData);
   fs.writeFileSync('routes.ts', routesData);
   fs.writeFileSync('route-factory.ts', routefactoryData);
