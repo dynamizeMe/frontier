@@ -2,28 +2,19 @@ import { addApplication } from './create.js';
 import { cwd } from 'node:process';
 import os from 'node:os';
 import fs from "fs";
-import readline  from 'readline';
+import { questions } from '../inquirer/add_application_questions.js';
+import inquirer from 'inquirer';
+
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
 
 export function createApp() {
-    const oSys = os.platform();
-
-    console.log(`OS: ${oSys}!`);
-    const inquirer = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout
-  });
-  inquirer.question(`Please name your remote application: `, name => {
-    inquirer.question("What port would you like to use: ", port => {
-      addApplication(name, port, false);
-      addEntryToManifest(name, port);
-      inquirer.close();
-    });
-  });
+  inquirer.prompt(questions).then((answers) => {
+    addApplication(answers.appName, answers.port, true);
+    addEntryToManifest(answers.appName, answers.port);
+  })
 };
-
 
 export function getHost() {
   const angJsonPath = `${cwd()}/angular.json`;

@@ -5,14 +5,14 @@ import { routesData } from '../create_data/routes.js';
 import { routefactoryData } from '../create_data/route-factory.js';
 import fs from "fs";
 
-export function addApplication(name, port, isShell, callBackFunction) {
+export function addApplication(name, port, isHost, callBackFunction) {
   const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");
   const cliMajorVer = cliVersion.split('.')[0];
   console.log(`Creating angular application: ${name}`)
   executeCommand(`ng generate application ${name} --routing --style="scss"`);
 
   if(cliMajorVer > 13) {
-    if(isShell) {
+    if(isHost) {
       executeCommand(`ng add @angular-architects/module-federation --project=${name} --port=${port} --type dynamic-host --skip-confirmation`);
       setupShellApp(name);
     }
