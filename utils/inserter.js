@@ -1,8 +1,8 @@
 'use strict'
-var fs = require('fs')
-var os = require('os')
+import fs from 'fs';
+import os from 'os';
 
-function Inserter(filePath) {
+export function Inserter(filePath) {
   if (typeof filePath === 'undefined') {
     throw new Error('File path not specified')
   }
@@ -163,6 +163,3 @@ function insert(filePath, fileContent, atLineNumber, lineContent, options, callb
   }
 }
 
-module.exports = function(filePath) {
-  return new Inserter(filePath)
-}

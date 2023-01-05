@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-const { addScript, executeCommandWithReturn } = require('./utils/util.js');
-const { addApplication } = require('./utils/create.js');
-const { execSync } = require('node:child_process');
-const createApp = require('./utils/add_remote.js');
-const Inserter = require('./utils/inserter');
-const clearConsole = require('./utils/console');
-const os = require('node:os');
+import { addScript, executeCommandWithReturn } from './utils/util.js';
+import { addApplication } from './utils/create.js';
+import { execSync } from 'node:child_process';
+import { createApp } from './utils/add_remote.js';
+import { clearConsole } from './utils/console.js';
+import readline  from 'readline';
+import os from 'node:os';
 
 const oSys = os.platform();
 const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");
@@ -27,7 +27,6 @@ function execute() {
 
 function initalizeWorkspace() {
     clearConsole();
-    const readline = require('readline');
     const inquirer = readline.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -54,11 +53,3 @@ function createInitScript() {
 }
 
 execute();
-
-module.exports = {
-    createApp,
-    createInitScript,
-    initalizeWorkspace,
-    execute,
-    Inserter
-}

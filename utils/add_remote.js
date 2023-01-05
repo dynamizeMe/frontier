@@ -1,35 +1,38 @@
-const { addScript } = require('./util.js');
-const { addApplication } = require('./create.js');
-const { cwd } = require('node:process');
-const os = require('node:os');
+import { addApplication } from './create.js';
+import { cwd } from 'node:process';
+import os from 'node:os';
+import fs from "fs";
+import readline  from 'readline';
+import { createRequire } from "module";
 
-function createApp() {
+const require = createRequire(import.meta.url);
+
+export function createApp() {
     const oSys = os.platform();
 
     console.log(`OS: ${oSys}!`);
-    const readline = require('readline').createInterface({
-        input: process.stdin,
-        output: process.stdout,
+    const inquirer = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+  });
+  inquirer.question(`Please name your remote application: `, name => {
+    inquirer.question("What port would you like to use: ", port => {
+      addApplication(name, port, false);
+      addEntryToManifest(name, port);
+      inquirer.close();
     });
-    readline.question(`Please name your remote application: `, name => {
-      readline.question("What port would you like to use: ", port => {
-        addApplication(name, port, false);
-        addEntryToManifest(name, port);
-        readline.close();
-      });
-    });
-}
+  });
+};
 
 
-function getHost() {
+export function getHost() {
   const angJsonPath = `${cwd()}/angular.json`;
   const json = require(angJsonPath);
   const hostApp = Object.keys(json.projects)[0];
   return hostApp;
-}
+};
 
-function addEntryToManifest(name, port) {
-  const saveFile = require('fs').writeFileSync;
+export function addEntryToManifest(name, port) {
   const manifestPath = `${cwd()}/projects/${getHost()}/src/assets/mf.manifest.json`;
   const json = require(manifestPath);
 
@@ -46,7 +49,5 @@ function addEntryToManifest(name, port) {
   };
   json[key] = value;
 
-  saveFile(manifestPath, JSON.stringify(json, null, 2));
-}
-
-module.exports = createApp
+  fs.writeFileSync(manifestPath, JSON.stringify(json, null, 2));
+};

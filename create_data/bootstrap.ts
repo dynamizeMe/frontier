@@ -1,4 +1,4 @@
-const bootstrapData =
+export const bootstrapData =
 `import { enableProdMode, importProvidersFrom } from '@angular/core';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter, ROUTES } from '@angular/router';
@@ -24,4 +24,3 @@ bootstrapApplication(AppComponent, {
 }).catch((err) => console.error(err));
 `;
 
-module.exports = bootstrapData;

@@ -1,10 +1,11 @@
-const { addScript, changeDir, executeCommand, executeCommandWithReturn } = require('./util');
-const appRoutingModuleData = require('../create_data/app.routing.module');
-const customManifestData = require('../create_data/custom-manifest');
-const routesData = require('../create_data/routes');
-const routefactoryData = require('../create_data/route-factory');
+import { addScript, changeDir, executeCommand, executeCommandWithReturn } from './util.js';
+import { appRoutingModuleData } from '../create_data/app.routing.module.js';
+import { customManifestData } from '../create_data/custom-manifest.js';
+import { routesData } from '../create_data/routes.js';
+import { routefactoryData } from '../create_data/route-factory.js';
+import fs from "fs";
 
-function addApplication(name, port, isShell, callBackFunction) {
+export function addApplication(name, port, isShell, callBackFunction) {
   const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");
   const cliMajorVer = cliVersion.split('.')[0];
   console.log(`Creating angular application: ${name}`)
@@ -30,8 +31,7 @@ function addApplication(name, port, isShell, callBackFunction) {
   }
 }
 
-function setupShellApp(name) {
-  const fs = require("fs");
+export function setupShellApp(name) {
   changeDir(`/projects/${name}/src/app`);
   executeCommand('mkdir microfrontends');
   executeCommand('mkdir components');
@@ -47,13 +47,8 @@ function setupShellApp(name) {
   changeDir('../../../../');
 }
 
-function addScripts(name) {
+export function addScripts(name) {
   addScript('start', name);
   addScript('build', name);
   addScript('watch', name);
-}
-
-module.exports = {
-    addApplication,
-    setupShellApp
 }

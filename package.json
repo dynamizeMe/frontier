@@ -4,6 +4,7 @@
   "description": "Angular Micro Frontend Scaffolding Tool",
   "main": "index.js",
   "bin": "./index.js",
+  "type": "module",
   "scripts": {
     "test": "cd .. && cd test && npm link micros-frontier && node test.js"
   },
@@ -25,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/ewhtp4/frontier/issues"
   },
-  "homepage": "https://github.com/ewhtp4/frontier#readme"
+  "homepage": "https://github.com/ewhtp4/frontier#readme",
+  "dependencies": {
+    "inquirer": "^9.1.4"
+  }
 }

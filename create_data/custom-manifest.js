@@ -1,4 +1,4 @@
-const customManifestData =
+export const customManifestData =
 `import { Manifest, RemoteConfig } from "@angular-architects/module-federation";
 
 export type CustomRemoteConfig = RemoteConfig & {
@@ -9,5 +9,3 @@ export type CustomRemoteConfig = RemoteConfig & {
 
 export type CustomManifest = Manifest<CustomRemoteConfig>;
 `;
-
-module.exports = customManifestData;

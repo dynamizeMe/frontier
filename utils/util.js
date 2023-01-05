@@ -1,7 +1,11 @@
-const { execSync } = require('node:child_process');
-const { chdir, cwd } = require('node:process');
+import { execSync } from 'node:child_process';
+import { chdir, cwd } from 'node:process';
+import fs from 'fs';
+import { createRequire } from "module";
 
-function executeCommandWithReturn(command) {
+const require = createRequire(import.meta.url);
+
+export function executeCommandWithReturn(command) {
     return execSync(command, (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
@@ -15,7 +19,7 @@ function executeCommandWithReturn(command) {
     }).toString();
 }
 
-function executeCommand(command) {
+export function executeCommand(command) {
     execSync(command, (error, stdout, stderr) => {
         if (error) {
             console.log(`error: ${error.message}`);
@@ -28,7 +32,7 @@ function executeCommand(command) {
     });
 }
 
-function changeDir(dir) {
+export function changeDir(dir) {
     try {
         if(dir.startsWith('../')) {
             chdir(`${dir}`);
@@ -41,8 +45,7 @@ function changeDir(dir) {
     }
 }
 
-function addScript(type, name) {
-  const saveFile = require('fs').writeFileSync;
+export function addScript(type, name) {
   const pkgJsonPath = `${cwd()}/package.json`;
   const json = require(pkgJsonPath);
   let key = '';
@@ -82,11 +85,10 @@ function addScript(type, name) {
 
     json.scripts[key] = value;
 
-    saveFile(pkgJsonPath, JSON.stringify(json, null, 2));
+    fs.writeFileSync(pkgJsonPath, JSON.stringify(json, null, 2));
 }
 
-function addExport(name) {
-  const saveFile = require('fs').writeFileSync;
+export function addExport(name) {
   const pkgJsonPath = `${cwd()}/package.json`;
   console.log(`Path: ${pkgJsonPath}`);
   const json = require(pkgJsonPath);
@@ -94,14 +96,5 @@ function addExport(name) {
     json.exports = {};
   }
   json.exports[`./projects*`] = `./projects/*/webpack.config.js`;
-  saveFile(pkgJsonPath, JSON.stringify(json, null, 2));
-}
-
-
-module.exports = {
-  addExport,
-  addScript,
-  changeDir,
-  executeCommand,
-  executeCommandWithReturn
+  fs.writeFileSync(pkgJsonPath, JSON.stringify(json, null, 2));
 }

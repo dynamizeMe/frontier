@@ -1,4 +1,4 @@
-const routefactoryData =
+export const routefactoryData =
 `import { getManifest, loadRemoteModule } from '@angular-architects/module-federation';
 import { Routes } from '@angular/router';
 import { CustomManifest } from './custom-manifest';
@@ -17,4 +17,3 @@ export function createRoutes(): Routes {
 }
 `;
 
-module.exports = routefactoryData;

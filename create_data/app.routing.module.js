@@ -1,4 +1,4 @@
-const appRoutingModuleData =
+export const appRoutingModuleData =
 `import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { createRoutes } from './microfrontends/route-factory';
@@ -7,6 +7,6 @@ import { createRoutes } from './microfrontends/route-factory';
   imports: [RouterModule.forRoot(createRoutes())],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }`
+export class AppRoutingModule { }`;
 
-module.exports = appRoutingModuleData;
+
