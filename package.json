@@ -6,7 +6,7 @@
   "bin": "./index.js",
   "type": "module",
   "scripts": {
-    "test": "cd .. && cd test && npm link micros-frontier && node test.js"
+    "test": "npm link && cd ../test && micros-frontier --init"
   },
   "repository": {
     "type": "git",
