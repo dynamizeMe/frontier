@@ -1,11 +1,12 @@
 #!/usr/bin/env node
+'use strict'
+import inquirer from 'inquirer';
 import { addScript, executeCommandWithReturn } from './utils/util.js';
 import { addApplication } from './utils/create.js';
 import { execSync } from 'node:child_process';
 import { createApp } from './utils/add_remote.js';
 import { clearConsole } from './utils/console.js';
 import { questions } from './inquirer/init_questions.js';
-import inquirer from 'inquirer';
 
 const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");
 const cliMajorVer = cliVersion.split('.')[0];
@@ -30,7 +31,7 @@ function initalizeWorkspace() {
       execSync(`ng new ${answers.workspaceName} --create-application=false --directory ./`);
       execSync(`npm i --save --save-dev ngx-build-plus@^${cliMajorVer}`);
       addScript('add');
-      addApplication(answers.appName, answers, true);
+      addApplication(answers.appName, answers.port, true);
     });
 }
 

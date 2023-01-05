@@ -1,3 +1,4 @@
+'use strict'
 import { name, numbersOnly } from '../utils/regex.js'
 
 export const questions = [

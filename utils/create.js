@@ -1,9 +1,10 @@
+'use strict'
+import fs from "fs";
 import { addScript, changeDir, executeCommand, executeCommandWithReturn } from './util.js';
 import { appRoutingModuleData } from '../create_data/app.routing.module.js';
 import { customManifestData } from '../create_data/custom-manifest.js';
 import { routesData } from '../create_data/routes.js';
 import { routefactoryData } from '../create_data/route-factory.js';
-import fs from "fs";
 
 export function addApplication(name, port, isHost, callBackFunction) {
   const cliVersion = executeCommandWithReturn("ng version | awk 'FNR == 10 {print $3}'");

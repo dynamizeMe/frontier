@@ -1,6 +1,7 @@
+'use strict'
+import fs from 'fs';
 import { execSync } from 'node:child_process';
 import { chdir, cwd } from 'node:process';
-import fs from 'fs';
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);

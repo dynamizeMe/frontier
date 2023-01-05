@@ -1,10 +1,9 @@
+'use strict'
+import fs from "fs";
+import inquirer from 'inquirer';
 import { addApplication } from './create.js';
 import { cwd } from 'node:process';
-import os from 'node:os';
-import fs from "fs";
 import { questions } from '../inquirer/add_application_questions.js';
-import inquirer from 'inquirer';
-
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
